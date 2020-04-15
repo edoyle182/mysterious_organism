@@ -12,3 +12,12 @@ const mockUpStrand = () => {
   }
   return newStrand;
 };
+
+// Returns obj containing specimenNum & dna properties
+const pAequorFactory = (specimenNum, dna) => {
+  return {
+    specimenNum: specimenNum,
+    dna: [dna]
+  }
+};
+console.log(pAequorFactory(1, mockUpStrand()));
