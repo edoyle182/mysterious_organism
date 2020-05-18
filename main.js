@@ -55,7 +55,7 @@ const pAequorFactory = (specimenNum, dna) => {
       const percentDNAsim = (homogeneities / this.dna.length) * 100;
 
       // Limit % in common to two decimal places
-      const percentTo2Decimals = precentDNAsim.toFixed(2);
+      const percentTo2Decimals = percentDNAsim.toFixed(2);
 
       // Log commonality statement on two compared bases
       console.log(`${this.specimenNum} and ${otherOrganism.specimenNum} have ${percentTo2Decimals}% DNA in common.`);
