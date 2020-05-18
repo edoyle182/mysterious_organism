@@ -40,12 +40,35 @@ const pAequorFactory = (specimenNum, dna) => {
       this.dna[randIndex] = newRandBase;
       return this.dna;
       console.log(`Newly Mutated DNA Strand: ${this.dna}`);
+    }, 
+    compareDNA(otherOrganism) {
+      const homogeneities = this.dna.reduce((acc, curr, idx, arr) => {
+        // If two bases are equal, increase counter by one
+        if (arr[idx] === otherOrganism.dna[idx]) {
+          return acc + 1;
+        } else {
+          return acc;
+        }
+      }, 0);
+
+      // Calculate % of common bases
+      const percentDNAsim = (homogeneities / this.dna.length) * 100;
+
+      // Limit % in common to two decimal places
+      const percentTo2Decimals = precentDNAsim.toFixed(2);
+
+      // Log commonality statement on two compared bases
+      console.log(`${this.specimenNum} and ${otherOrganism.specimenNum} have ${percentTo2Decimals}% DNA in common.`);
     }
   }
 };
 
-// Creates sample object
-let pAequorSampleObj = pAequorFactory(1, mockUpStrand());
+// Creates sample objects
+let pAequorSampleObj1 = pAequorFactory(1, mockUpStrand());
+let pAequorSampleObj2 = pAequorFactory(8, mockUpStrand());
 
 // Logs test of .mutate() method on sample object
-console.log(pAequorSampleObj.mutate());
+console.log(pAequorSampleObj1.mutate());
+
+// Logs test of .compareDNA method on sample objects
+pAequorSampleObj1.compareDNA(pAequorSampleObj2);
