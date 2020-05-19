@@ -59,7 +59,16 @@ const pAequorFactory = (specimenNum, dna) => {
 
       // Log commonality statement on two compared bases
       console.log(`${this.specimenNum} and ${otherOrganism.specimenNum} have ${percentTo2Decimals}% DNA in common.`);
-    }
+    },
+    // Returns true if at least sixty percent of DNA bases are 'C' OR 'G'
+    willLikelySurvive() {
+      // Use .filter() method to create new array containing only C/G elements
+      const cOrG = this.dna.filter(el => el === 'C' || el === 'G');
+      
+      // Divide length of newly filtered C/G array by length of original DNA array
+      // If >= sixty percent, return true - If not, return false
+      return cOrG.length / this.dna.length >= 0.6;
+    },
   }
 };
 
