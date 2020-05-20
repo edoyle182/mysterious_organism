@@ -13,16 +13,15 @@ const mockUpStrand = () => {
   return newStrand;
 };
 
-// Factory function for creating many objects - 
-// Containing properties specimenNum & dna that correspond w/ parameters provided
+// Returns obj containing properties specimenNum & dna that
+// correspond w/ parameters provided
 const pAequorFactory = (specimenNum, dna) => {
   return {
     specimenNum: specimenNum,
     dna: dna,
-    // Changes a random base in the mockup strand to a new random base
     mutate() {
       console.log(
-        `Mutating specimen ${this.specimenNum}, with bases: ${this.dna}`
+        `\nMutating specimen ${this.specimenNum}, with bases: ${this.dna}`
       );
 
       // Selects random index of base to change
@@ -43,13 +42,12 @@ const pAequorFactory = (specimenNum, dna) => {
 
       // Replaces original base selection w/ new random base
       this.dna[randIndex] = newRandBase;
+      console.log('Newly Mutated DNA Strand: ');
       return this.dna;
-      console.log(`Newly Mutated DNA Strand: ${this.dna}`);
     },
-    
     compareDNA(otherOrganism) {
       const homogeneities = this.dna.reduce((acc, curr, idx, arr) => {
-        // If 2 bases are equal, increase counter by 1
+        // If two bases are equal, increase counter by one
         if (arr[idx] === otherOrganism.dna[idx]) {
           return acc + 1;
         } else {
@@ -60,16 +58,15 @@ const pAequorFactory = (specimenNum, dna) => {
       // Calculate % of common bases
       const percentDNAsim = (homogeneities / this.dna.length) * 100;
 
-      // Limit % in common to 2 decimal places
+      // Limit % in common to two decimal places
       const percentTo2Decimals = percentDNAsim.toFixed(2);
 
-      // Log commonality statement on 2 compared bases
+      // Log commonality statement on two compared bases
       console.log(
-        `${this.specimenNum} and ${otherOrganism.specimenNum} have ${percentTo2Decimals}% DNA in common.`
+        `\n${this.specimenNum} and ${otherOrganism.specimenNum} have ${percentTo2Decimals}% DNA in common.`
       );
     },
-    // Determines likelihood of P. aequor surviving 
-    // Returns true (higher chance of survival) if at least 60% of DNA bases are 'C' OR 'G'
+    // Returns true if at least sixty percent of DNA bases are 'C' OR 'G'
     willLikelySurvive() {
       // Use .filter() method to create new array containing only C/G elements
       const cOrG = this.dna.filter((el) => el === 'C' || el === 'G');
@@ -77,18 +74,31 @@ const pAequorFactory = (specimenNum, dna) => {
       // If >= sixty percent, return true - If not, return false
       return cOrG.length / this.dna.length >= 0.6;
     },
+
+    complementStrand() {
+      let dnaMap = new Map([
+        ['A', 'T'],
+        ['T', 'A'],
+        ['C', 'G'],
+        ['G', 'C'],
+      ]);
+      let compStrand = this.dna.map((dna) => dnaMap.get(dna));
+      return `\n Generating complementary DNA strand...
+      Original DNA Strand: ${this.dna}
+      Complementary DNA Strand: ${compStrand}`;
+    },
   };
 };
 
 const pAequorSurvivors = []; // Create array to store pAequor specimen that survive
-let idCounter = 1; // Create variable idCounter (counter up until 30)
+let idCounter = 1; // Create variable name for id counter (counter up until 30)
 
 // Create 30 instances of pAequor that can survive (.willLikelySurvive() returns true)
 while (pAequorSurvivors.length < 30) {
   // Loop until pAequorSurvivors array includes 30 specimens
   let newOrg = pAequorFactory(idCounter, mockUpStrand()); // Generate new organism
   if (newOrg.willLikelySurvive()) {
-    // If .willLikelySurvive returns true, push newOrg to array
+    // If .willLikelySurvies returns true, push newOrg to array
     pAequorSurvivors.push(newOrg);
   }
   idCounter++; // Increase idCounter by 1 up until 30
@@ -105,3 +115,6 @@ console.log(pAequorSampleObj1.mutate());
 
 // Logs test of .compareDNA method on sample objects
 pAequorSampleObj1.compareDNA(pAequorSampleObj2);
+
+// Logs test of .complementStrand method on sample object
+console.log(pAequorSampleObj1.complementStrand());
